@@ -14,7 +14,7 @@ def retrive_stock_data(stockid, folder):
     fname = os.path.join(folder, '%s.csv' % stockid.split('.')[0])
     if not os.path.isdir(folder):
         os.mkdir(folder)
-    urllib.urlretrieve(url, fname)
+    urllib.request.urlretrieve(url, fname)
 
 
 def update_stock_data(stockid, folder, startdate=None):
@@ -60,7 +60,7 @@ def update_stock_data(stockid, folder, startdate=None):
     print('updatting %s [%s - %s] form %s' % (stockid, startdate.date(), today.date(), url))
     temp_file = fname + '.tmp'
     try:
-        urllib.urlretrieve(url, temp_file)
+        urllib.request.urlretrieve(url, temp_file)
         update_data = pd.read_csv(temp_file, index_col='Date', parse_dates=True)
     except Exception, e:
         print(e)
@@ -87,7 +87,7 @@ def stock_list(files, postfixs):
 
     stocks = []
     for i in range(len(files)):
-        data = pd.read_csv(files[i], header=None, names=['name', 'id'], dtype={'id': np.string0}, skipinitialspace=True)
+        data = pd.read_csv(files[i], header=None, names=['name', 'id'], dtype={'id': np.string_}, skipinitialspace=True)
         data['id'] += postfixs[i]
         stocks.append(data)
 
